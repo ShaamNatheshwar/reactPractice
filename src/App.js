@@ -5,33 +5,45 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      monsters : [
-        {
-          name:'shaam',
-          id: '12e1233'
-        },
-        {
-          name:'gohan',
-          id: '12ef0233'
-        },
-        {
-          name:'goku',
-          id: '12ff1233'
-        }
-      ]
+      monsters: [],
     };
   }
+
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) =>
+        this.setState(() => {
+          return { monsters: users };
+        })
+      );
+  }
+
   render() {
     return (
       <div className="App">
-       {
-        this.state.monsters.map((monster)=>{
-          return <div key={monster.id}>
-            <h1>{monster.name}</h1>
+        <input
+          className="search-box"
+          type= 'search'
+          placeholder="search monsters"
+          onChange={(event) => {
+            console.log(event);
 
-          </div>
-        })
-       }
+            const filteredMonsters = this.state.monsters.filter((monster) => {
+              return monster.name.includes(event.target.value);
+            });
+            this.setState(() => {
+              return { monsters: filteredMonsters };
+            });
+          }}
+        />
+        {this.state.monsters.map((monster) => {
+          return (
+            <div key={monster.id}>
+              <h1>{monster.name}</h1>
+            </div>
+          );
+        })}
       </div>
     );
   }
