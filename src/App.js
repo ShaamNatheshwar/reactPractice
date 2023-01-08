@@ -24,6 +24,9 @@ const App = () => {
   );
 };
 
+
+// components
+
 // class App extends Component {
 //   constructor() {
 //     super();
